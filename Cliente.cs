@@ -7,11 +7,11 @@ class Cliente
     public int Telefono { get; private set; }
     public string ReferenciaDireccion { get; private set; }
 
-    public Cliente(string nombre, string direccion, int telefono, string referenciaDireccion)
+    public Cliente(string nombre, string direccion, int telefono, string referencia)
     {
         Nombre = nombre;
         Direccion = direccion;
         Telefono = telefono;
-        ReferenciaDireccion = referenciaDireccion;
+        ReferenciaDireccion = referencia;
     }
 }
