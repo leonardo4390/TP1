@@ -1,5 +1,5 @@
 using System;
-using System.Net.NetworkInformation;
+using System.Collections.Generic;
 
 class Cadeteria
 {
@@ -16,50 +16,88 @@ class Cadeteria
 
     public void CargarCadete()
     {
-
         while (true)
         {
-            Console.WriteLine("Ingrese el Nombre del cadete: ");
-            var nombreCadete = Console.ReadLine();
-            Console.WriteLine("Ingrese la direccion del cadete: ");
-            var direcionCadete = Console.ReadLine();
-            Console.WriteLine("Ingrese el Nombre del cadete: ");
-            int telefonoCadete = Convert.ToInt32(Console.ReadLine());
-            Cadete cadete = new Cadete(nombreCadete, direcionCadete, telefonoCadete);
+            Console.WriteLine("Ingrese el nombre del cadete:");
+            var nombre = Console.ReadLine();
+            Console.WriteLine("Ingrese la dirección del cadete:");
+            var direccion = Console.ReadLine();
+            Console.WriteLine("Ingrese el teléfono del cadete:");
+            int telefono = Convert.ToInt32(Console.ReadLine());
+
+            Cadete cadete = new Cadete(nombre, direccion, telefono);
             Cadetes.Add(cadete);
 
-            Console.WriteLine("Desea ingresar otro Cadete?(s/n): ");
-            var agregarCadete = Console.ReadLine();
-
-            if (agregarCadete != "s") break;
+            Console.WriteLine("¿Desea ingresar otro cadete? (s/n):");
+            if (Console.ReadLine().ToLower() != "s") break;
         }
     }
+
     public void CargarPedido()
     {
-        List<Pedido> pedidos = new List<Pedido>();
         int nro = 0;
         while (true)
         {
             nro++;
-            Console.WriteLine("Ingrese observacion del pedido: ");
-            var observacio = Console.ReadLine();
-            Console.WriteLine("Ingrese el Nombre del cliente: ");
-            var nombreCliente = Console.ReadLine();
-            Console.WriteLine("Ingrese la direccion del cliente: ");
-            var direccionCliente = Console.ReadLine();
-            Console.WriteLine("Ingrese el telefono del cliente: ");
-            int telefonoCliente = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Ingrese la referencia de la direccion del cliente: ");
+            Console.WriteLine("Ingrese observación del pedido:");
+            var obs = Console.ReadLine();
+            Console.WriteLine("Ingrese nombre del cliente:");
+            var nombre = Console.ReadLine();
+            Console.WriteLine("Ingrese dirección del cliente:");
+            var direccion = Console.ReadLine();
+            Console.WriteLine("Ingrese teléfono del cliente:");
+            int telefono = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Ingrese referencia de dirección:");
             var referencia = Console.ReadLine();
-            Console.WriteLine("Ingrese el estado del pedido: ");
-            var estadoCliente = Console.ReadLine();
-            Pedido pedido = new Pedido(nro, observacio, nombreCliente, direccionCliente, telefonoCliente, referencia, estadoCliente);
-            pedidos.Add(pedido);
-            Console.WriteLine("Desea ingresar otro Pedido?(s/n): ");
-            var agregarPedido = Console.ReadLine();
+            Console.WriteLine("Ingrese estado del pedido:");
+            var estado = Console.ReadLine();
 
-            if (agregarPedido != "s") break;
-                    
+            Pedido pedido = new Pedido(nro, obs, nombre, direccion, telefono, referencia, estado);
+
+            Console.WriteLine("¿Desea agregar productos al pedido? (s/n):");
+            while (Console.ReadLine().ToLower() == "s")
+            {
+                Console.WriteLine("Seleccione una comida:");
+                foreach (var comida in Enum.GetValues(typeof(Producto.Comida)))
+                {
+                    Console.WriteLine($"- {comida}");
+                }
+
+                var entrada = Console.ReadLine();
+                if (Enum.TryParse(entrada, out Producto.Comida tipo))
+                {
+                    pedido.AgregarProducto(tipo);
+                    Console.WriteLine("¿Agregar otra comida? (s/n):");
+                }
+                else
+                {
+                    Console.WriteLine("Comida inválida.");
+                }
+            }
+
+            if (Cadetes.Count > 0)
+            {
+                Cadetes[0].Pedidos.Add(pedido);
+                Console.WriteLine($"Pedido asignado a cadete: {Cadetes[0].Nombre}");
+            }
+
+            Console.WriteLine("¿Desea ingresar otro pedido? (s/n):");
+            if (Console.ReadLine().ToLower() != "s") break;
+        }
+    }
+
+    public void MostrarPedidos()
+    {
+        foreach (var cadete in Cadetes)
+        {
+            Console.WriteLine($"\nCadete: {cadete.Nombre} (ID: {cadete.Id})");
+            foreach (var pedido in cadete.Pedidos)
+            {
+                Console.WriteLine($"Pedido #{pedido.Nro} - Estado: {pedido.Estado}");
+                pedido.VerDatoCliente();
+                pedido.VerDireccionCliente();
+                pedido.VerProductos();
+            }
         }
     }
 }
