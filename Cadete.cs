@@ -1,5 +1,4 @@
 using System;
-
 using System.Collections.Generic;
 
 class Cadete
@@ -30,5 +29,5 @@ class Cadete
     {
         Pedidos.RemoveAll(p => p.Nro == nro);
     }
-    
+
 }
