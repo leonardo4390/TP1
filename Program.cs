@@ -8,9 +8,15 @@ class Program
         string rutaCadetes = "cadetes.csv";
 
         Cadeteria cadeteria = new Cadeteria(rutaCadeteria, rutaCadetes);
+        GestioPedidos(cadeteria);
+        
+    }
+
+    public static void GestioPedidos(Cadeteria cadeteria)
+    {
         while (true)
         {
-            Console.WriteLine("\n MENÚ DE GESTIÓN DE PEDIDOS");
+            Console.WriteLine("\n MENU DE GESTION DE PEDIDOS");
             Console.WriteLine("1. Dar de alta pedido");
             Console.WriteLine("2. Asignar pedido a cadete");
             Console.WriteLine("3. Cambiar estado de pedido");
@@ -40,13 +46,12 @@ class Program
                     break;
                 case "6":
                     Console.WriteLine("Cerrando sistema...");
+                    Console.WriteLine("Programa finalizado.");
                     return;
                 default:
                     Console.WriteLine("Opción inválida.");
                     break;
             }
         }
-
-
     }
 }
